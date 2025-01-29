@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 
-export const root = ({ children }: { children: ReactNode }) => {
+const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <main>
       {children}
@@ -8,4 +8,4 @@ export const root = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export default root
+export default RootLayout;
