@@ -6,7 +6,7 @@ export default async function Meeting({
   params: Promise<{ id: string }>
 }) {
   const id = (await params).id
-  return <div>Meeting Room: #{id}</div>
+  return <div className='text-white' > Meeting Room: #{id}</div >
 }
 
 //syncronous code and the app expects params to be avaliable imediatly
