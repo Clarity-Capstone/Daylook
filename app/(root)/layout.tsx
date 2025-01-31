@@ -1,16 +1,16 @@
-// import StreamVideoProvider from '@/providers/StreamClientProvider'
+import StreamVideoProvider from '@/providers/StreamClientProvider'
 import React, { ReactNode } from 'react'
 
-export const root = ({ children }: { children: ReactNode }) => {
+const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <main>
 
-      {/* <StreamVideoProvider> */}
-      {children}
-      {/* </StreamVideoProvider> */}
+      <StreamVideoProvider>
+        {children}
+      </StreamVideoProvider>
 
     </main>
   )
 }
 
-export default root
+export default RootLayout;

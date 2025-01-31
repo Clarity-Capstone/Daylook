@@ -1,6 +1,19 @@
-import { clerkMiddleware } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-export default clerkMiddleware()
+
+const protectedRoutes = createRouteMatcher([
+  '/',
+  '/Upcoming',
+  '/previous',
+  '/recordings',
+  'personal_room',
+  '/meeting(.*)'
+
+])
+
+export default clerkMiddleware((auth, req) => {
+  if (protectedRoutes(req)) auth.protect()
+})
 
 export const config = {
   matcher: [
@@ -17,3 +30,4 @@ This is supposed to be insidr nav
    <UserButton />
  </SignedIn>
 */
+
