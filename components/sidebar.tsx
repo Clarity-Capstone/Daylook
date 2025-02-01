@@ -27,7 +27,7 @@ const Sidebar: FC = () => {
           <PlusCircle className="w-6 h-6" /> Personal Room
         </Link>
       </div>
-      
+
     </section>
 
   );

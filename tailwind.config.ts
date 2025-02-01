@@ -14,17 +14,9 @@ export default {
 				dark: {
 					1: '#1C1F2E',
 					2: '#161925'// colors that are suggested use from yt
-
 				},
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
-				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
-				},
-				popover: {
-					DEFAULT: 'hsl(var(--popover))',
-					foreground: 'hsl(var(--popover-foreground))'
+				blue: {
+					1: '#0E78F9'
 				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',

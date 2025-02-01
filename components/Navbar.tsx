@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import DLOGO from '../images/DLOGOO.png'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 
 
 
@@ -14,10 +15,20 @@ const Navbar = () => {
           width={36}
           height={36}
           alt="Logo"
-          className="Logo" 
+          className="Logo"
         />
         <p className="sticky font-bold text-lg">DayLook</p>
       </Link>
+
+      <div className='flex-between gap-5'>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+
+      </div>
+
+
+
     </nav>
   );
 };
