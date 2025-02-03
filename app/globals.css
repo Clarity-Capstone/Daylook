@@ -63,7 +63,7 @@ body {
 .cl-userButtonPopoverActionButtonIcon {
   color: white;
 }
-
+/* remove this uneccasry at the end↓ */
 .cl-logoBox {
   height: 40px;
 }

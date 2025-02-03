@@ -2,18 +2,15 @@
 import React from 'react'
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Image from 'next/image';
 import HomeCard from './HomeCard';
 import MeetingModal from './MeetingModal';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk';
 import { useUser } from '@clerk/nextjs';
 import Loader from '../Loader';
 import { useToast } from "@/hooks/use-toast"
+import { Plus,UserPlus, CalendarPlus, LibraryBig } from 'lucide-react';
 
 const MeetingType = () => {
-
-  // return <div>HELLO</div>
-
 
   const router = useRouter();
   const [meetingState, setMeetingState] = useState<
@@ -75,31 +72,31 @@ const MeetingType = () => {
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
       <HomeCard
-        className='bg-blue-1'
-        img="/icons/add-meeting.svg"
+        className='bg-pink-400'
+        img={<Plus/>}
         title="New Meeting"
         description="Start an instant meeting"
         handleClick={() => setMeetingState('isInstantMeeting')}
       />
       <HomeCard
-        img="/icons/join-meeting.svg"
+        img={<UserPlus/>}
         title="Join Meeting"
         description="via invitation link"
         className="bg-blue-1"
         handleClick={() => setMeetingState('isJoiningMeeting')}
       />
       <HomeCard
-        img="/icons/schedule.svg"
+        img={<CalendarPlus/>}
         title="Schedule Meeting"
         description="Plan your meeting"
-        className="bg-purple-1"
+        className="bg-purple-400"
         handleClick={() => setMeetingState('isScheduleMeeting')}
       />
       <HomeCard
-        img="/icons/recordings.svg"
+        img={<LibraryBig/>}
         title="View Recordings"
         description="Meeting Recordings"
-        className="bg-yellow-1"
+        className="bg-zinc-600"
         handleClick={() => router.push('/recordings')}
       />
 

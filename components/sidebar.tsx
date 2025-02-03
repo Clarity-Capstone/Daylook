@@ -1,8 +1,6 @@
 import React, { FC } from 'react'; // FC stands for Functional Component
 import Link from 'next/link';
-import { Home, Calendar, Video, FileText, PlusCircle } from 'lucide-react';
-// import UpcomingPage from '@/app/(root)/(home)/Upcoming/UpcomingPage';
-
+import { Home, Calendar, Video, PlusCircle, LibraryBig } from 'lucide-react';
 
 // Sidebar Component
 const Sidebar: FC = () => {
@@ -21,7 +19,7 @@ const Sidebar: FC = () => {
           <Video className="w-6 h-6" /> Previous
         </Link>
         <Link href="/Recordings" className="flex gap-4 items-center p-4 rounded-lg justify-start text-white hover:bg-sky-700">
-          <FileText className="w-6 h-6" /> Recordings
+          <LibraryBig className="w-6 h-6" /> Recordings
         </Link>
         <Link href="/Personal_Room" className="flex gap-4 items-center p-4 rounded-lg justify-start text-white hover:bg-sky-700">
           <PlusCircle className="w-6 h-6" /> Personal Room
