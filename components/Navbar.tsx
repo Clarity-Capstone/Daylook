@@ -12,10 +12,11 @@ const Navbar = () => {
       <Link href="/" className="sticky flex items-center gap-2">
         <Image
           src={DLOGO}
-          width={36}
-          height={36}
+          style={{width:'auto'}}
+          height={42}
           alt="Logo"
           className="Logo"
+          
         />
         <p className="sticky font-bold text-lg">DayLook</p>
       </Link>

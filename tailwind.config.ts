@@ -9,8 +9,10 @@ export default {
 	],
 	theme: {
 		extend: {
+			backgroundImage: {
+					'link': "url('/images/BWDaylookBanner.png')"
+			},
 			colors: {
-
 				dark: {
 					1: '#1C1F2E',
 					2: '#161925'// colors that are suggested use from yt
