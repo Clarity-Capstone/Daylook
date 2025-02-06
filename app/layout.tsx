@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/Navbar"; // importing the nav bar so that it is located in the MAIN layour
 import Sidebar from "@/components/sidebar"; // same for the side bar, essnetial for it to be visible at all times
 import '@stream-io/video-react-sdk/dist/css/styles.css' // base style for StreamTheme, allowing for end call,pin, etc.
+import 'react-datepicker/dist/react-datepicker.css'
 
 // import NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY from 
 require('dotenv').config()
