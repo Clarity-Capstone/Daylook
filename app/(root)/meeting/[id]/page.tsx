@@ -18,12 +18,12 @@ const Meeting = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = React.use(params);
   const { user, isLoaded } = useUser();
   const [isSetUpComplete, setIsSetupComplete] = useState(false)
-  const {call, isCallLoading} = useGetCallById(id)
+  const { call, isCallLoading } = useGetCallById(id)
 
   // if call is loading, render loading icon 
-  if(!isLoaded || isCallLoading) return <Loader/>
-  
-  
+  if (!isLoaded || isCallLoading) return <Loader />
+
+
   return (
     <main className="h-screen w-full">
       {/* stream call provider ensures which call we are in*/}
@@ -31,7 +31,7 @@ const Meeting = ({ params }: { params: Promise<{ id: string }> }) => {
         <StreamTheme>
           {!isSetUpComplete ? (
             <MeetingSetup setIsSetupComplete={setIsSetupComplete} /> // passing setIsSetupComplete as a prop
-          ): (<MeetingRoom/>)}
+          ) : (<MeetingRoom />)}
         </StreamTheme>
       </StreamCall>
     </main>
