@@ -63,6 +63,7 @@ body {
 .cl-userButtonPopoverActionButtonIcon {
   color: white;
 }
+
 /* remove this uneccasry at the end↓ */
 .cl-logoBox {
   height: 40px;
@@ -118,8 +119,8 @@ body {
   }
 }
 
-
-/* @layer base {
+/* 
+@layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
