@@ -10,7 +10,7 @@ export default {
 	theme: {
 		extend: {
 			backgroundImage: {
-					'link': "url('/images/BWDaylookBanner.png')"
+				'link': "url('/images/BWDaylookBanner.png')"
 			},
 			colors: {
 				dark: {

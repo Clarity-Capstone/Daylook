@@ -8,26 +8,26 @@ import { useState, useEffect } from 'react'
 import MeetingCard from './MeetingCard'
 import { Loader } from 'lucide-react'
 
-const CallList = ({ type } : { type: 'ended' | 'upcoming' | 'recordings' }) => {
+const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
 
-  const { endedCalls, upcomingCalls, callRecordings , isLoading } = useGetCalls()
-  
+  const { endedCalls, upcomingCalls, callRecordings, isLoading } = useGetCalls()
+
   // to figure where we are in the route
   const router = useRouter();
-  const [recordings, setRecordings] = useState <CallRecording[]>([]);
+  const [recordings, setRecordings] = useState<CallRecording[]>([]);
 
   // get the exact type of calls 
   const getCalls = () => {
-  switch (type) {
-    case 'ended':
-      return endedCalls
-    case 'recordings':
-      return recordings
-    case 'upcoming':
-      return upcomingCalls
-    default:
-      return [];
-  }
+    switch (type) {
+      case 'ended':
+        return endedCalls
+      case 'recordings':
+        return recordings
+      case 'upcoming':
+        return upcomingCalls
+      default:
+        return [];
+    }
   }
 
   const getNoCallsMessage = () => {
@@ -41,38 +41,61 @@ const CallList = ({ type } : { type: 'ended' | 'upcoming' | 'recordings' }) => {
       default:
         return '';
     }
+  }
+  // ---Rashell---RECORDING PAGE--------
+
+  // useEffect to fetch recordings for each specific call
+  //useEffect where we look for the type and call
+
+  useEffect(() => {
+    // function is equal to a async function 
+    const fetchRecordings = async () => {
+      // How do we fetch recordings for each diff call?
+      // first: get access to meetings
+      const callData = await Promise.all(callRecordings.map((meeting) => meeting.queryRecordings()))
+
+      const recordings = callData
+        .filter(call => call.recordings.length > 0)
+        .flatMap(call => call.recordings)
+      setRecordings(recordings);
     }
 
-// storing return message for getCalls in constant
-const calls = getCalls()
-// storing return message for getCalls in constant
-const noCallsMessage = getNoCallsMessage()
+    if (type === 'recordings') fetchRecordings();
+  }, [type, callRecordings]);
 
-if(isLoading) return <Loader />
+  // ----------------- 
+
+
+  // storing return message for getCalls in constant
+  const calls = getCalls()
+  // storing return message for getCalls in constant
+  const noCallsMessage = getNoCallsMessage()
+
+  if (isLoading) return <Loader />
 
   return (
     <div className='grid grid-cols-1 gap-5 xl:grid-cols-2'>
       {calls && calls.length > 0 ? calls.map((meeting: Call | CallRecording) => (
-        <MeetingCard 
-        key ={(meeting as Call).id}
-        icon={
-          type === 'ended'
-          ? '/icons/previous.svg'
-          : type === 'upcoming'
-            ? '/icons/upcoming.svg'
-            : '/icons/recordings.svg'
-        }
-        // title={(meeting as Call).state.custom.description.substring(0, 25) || 'No description'}
-        title={meeting.state?.custom?.description?.substring(0, 25) || 'No description'}
-        date={meeting.state?.startsAt?.toLocaleString()|| meeting.start_time?.toLocaleString()}
-        isPreviousMeeting={type === 'ended'}
-        buttonIcon1={ type === 'recordings' ? 'icons/play.svg' : undefined}
-        handleClick={ type === 'recordings' ? () => router.push(`${meeting.url}`) : () => router.push(`/meeting/${meeting.id}`)}
-        // creating a new meeting link so it works for deployed project
-        link={type === 'recordings' ? meeting.url :  `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.id}`}
-        buttonText={ type === 'recordings' ? 'Play' : 'Start'} 
+        <MeetingCard
+          key={(meeting as Call).id}
+          icon={
+            type === 'ended'
+              ? '/icons/previous.svg'
+              : type === 'upcoming'
+                ? '/icons/upcoming.svg'
+                : '/icons/recordings.svg'
+          }
+          // title={(meeting as Call).state.custom.description.substring(0, 25) || 'No description'}
+          title={meeting.state?.custom?.description?.substring(0, 25) || meeting.filename.substring(0, 20)}
+          date={meeting.state?.startsAt.toLocaleString() || meeting.start_time.toLocaleString()}
+          isPreviousMeeting={type === 'ended'}
+          buttonIcon1={type === 'recordings' ? 'icons/play.svg' : undefined}
+          handleClick={type === 'recordings' ? () => router.push(`${meeting.url}`) : () => router.push(`/meeting/${meeting.id}`)}
+          // creating a new meeting link so it works for deployed project
+          link={type === 'recordings' ? meeting.url : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.id}`}
+          buttonText={type === 'recordings' ? 'Play' : 'Start'}
         />
-      )) : ( 
+      )) : (
         <h1>{noCallsMessage}</h1>
       )}
     </div>
