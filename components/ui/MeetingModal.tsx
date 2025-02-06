@@ -20,8 +20,8 @@ interface MeetingModalProps {
   children?: ReactNode
   handleClick?: () => void;
   buttonText?: string;
-  image?: string;
-  buttonIcon?: string;
+  image?: string | React.ReactNode;
+  buttonIcon?: string | React.ReactNode;
 }
 
 
