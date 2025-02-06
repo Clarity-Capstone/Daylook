@@ -70,7 +70,8 @@ const MeetingType = () => {
   if (!client || !user) return <Loader />;
 
   // currently local host, but when deployed it will be current domain name
-  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
+  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`; // this uses the currentID
+  // const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${crypto.randomUUID()}`; // this generates a random anonymous link everytime
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
