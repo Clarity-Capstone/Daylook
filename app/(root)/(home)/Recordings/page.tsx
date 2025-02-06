@@ -4,9 +4,9 @@ import Recordings from '@/components/RecordingsPage';
 
 export default function Recording() {
 
-    return (
-      <div>
-        <Recordings/>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Recordings />
+    </div>
+  );
+}
