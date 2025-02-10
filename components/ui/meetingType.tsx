@@ -11,6 +11,8 @@ import { useToast } from "@/hooks/use-toast"
 import { Plus, UserPlus, CalendarPlus, LibraryBig, Copy, CheckCircle } from 'lucide-react';
 import { Textarea } from './textarea';
 import ReactDatePicker from 'react-datepicker'
+import { Input } from '@/components/ui/input'
+
 
 const MeetingType = () => {
 
@@ -161,7 +163,16 @@ const MeetingType = () => {
         className="text-center"
         buttonText="Join Meeting"
         handleClick={() => router.push(values.link)}
-      />
+      >
+        <Input
+          placeholder="Enter meeting link"
+          className="border-none bg-dark-2
+          focus-visible:ring-0
+          focus-visible:ring-offset-0"
+          onChange={(e) => setValues({ ...values, link: e.target.value })}
+          value={values.link}
+        />
+      </MeetingModal>
 
 
       <MeetingModal
