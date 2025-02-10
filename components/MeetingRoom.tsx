@@ -2,7 +2,7 @@
 'use client'; // must use client if we are using hooks
 
 import { CallParticipantsList, PaginatedGridLayout, SpeakerLayout, CallControls, CallStatsButton, useCallStateHooks, CallingState } from '@stream-io/video-react-sdk'
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import EndCallButton from './EndCallButton'
 
 import { cn } from '@/lib/utils'
@@ -13,11 +13,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from './ui/dropdown-menu'
-import { LayoutList, Users } from 'lucide-react'
+import { LayoutList, User, Users } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import Loader from './Loader';
 import '@stream-io/video-react-sdk/dist/css/styles.css' // base style for StreamTheme, allowing for end call,pin, etc.
 import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from 'next/navigation';
 
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
@@ -41,6 +42,8 @@ const MeetingRoom = () => {
 
     //To show participants actively
     const [showParticipants, setShowParticipants] = useState(false)
+
+    const router = useRouter();
 
     // Access calling state;
     const { useCallCallingState } = useCallStateHooks();
@@ -77,7 +80,7 @@ const MeetingRoom = () => {
 
             {/* Video layout & Call controls */}
             <div className='fixed bottom-0 flex w-full items-center justify-center gap-5 flex-wrap'>
-                <CallControls />
+                <CallControls onLeave={() => router.push('/')} />
 
                 {/* Drop down menue to change layout */}
                 <DropdownMenu>
