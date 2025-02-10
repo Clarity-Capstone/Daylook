@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import MeetingCard from './MeetingCard'
 import { Loader } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
 
 const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
 
@@ -15,6 +16,9 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   // to figure where we are in the route
   const router = useRouter();
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
+
+  const { toast } = useToast();
+
 
   // get the exact type of calls 
   const getCalls = () => {
@@ -42,7 +46,8 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
         return '';
     }
   }
-  // ---Rashell---RECORDING PAGE--------
+
+  // ---Rashell---RECORDING PAGE------------
 
   // useEffect to fetch recordings for each specific call
   //useEffect where we look for the type and call
@@ -50,14 +55,20 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   useEffect(() => {
     // function is equal to a async function 
     const fetchRecordings = async () => {
-      // How do we fetch recordings for each diff call?
-      // first: get access to meetings
-      const callData = await Promise.all(callRecordings.map((meeting) => meeting.queryRecordings()))
+      try {
+        // How do we fetch recordings for each diff call?
+        // first: get access to meetings
+        const callData = await Promise.all(callRecordings.map((meeting) => meeting.queryRecordings()))
 
-      const recordings = callData
-        .filter(call => call.recordings.length > 0)
-        .flatMap(call => call.recordings)
-      setRecordings(recordings);
+        const recordings = callData
+          .filter(call => call.recordings.length > 0)
+          .flatMap(call => call.recordings)
+
+        setRecordings(recordings);
+
+      } catch (error) {
+        toast({ title: 'Try again later' })
+      }
     }
 
     if (type === 'recordings') fetchRecordings();
@@ -85,6 +96,7 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
                 ? '/icons/upcoming.svg'
                 : '/icons/recordings.svg'
           }
+
           // title={(meeting as Call).state.custom.description.substring(0, 25) || 'No description'}
           title={meeting.state?.custom?.description?.substring(0, 25) || meeting.filename.substring(0, 20)}
           date={meeting.state?.startsAt.toLocaleString() || meeting.start_time.toLocaleString()}
