@@ -11,7 +11,7 @@ const call = useCall();
 
 //if we can not connect, throw error
 if(!call) {
-    throw new Error('jeff here hee hee')
+    throw new Error('call not able to connect. Make sure UseStreamCall is being used withing StreamCall component🤑')
 }
 //Allowing for camera & microphone
 

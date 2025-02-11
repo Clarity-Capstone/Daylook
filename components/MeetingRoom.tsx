@@ -19,6 +19,8 @@ import Loader from './Loader';
 import '@stream-io/video-react-sdk/dist/css/styles.css' // base style for StreamTheme, allowing for end call,pin, etc.
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from 'next/navigation';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from './ui/resizable';
+import NotesPage from './NotesPage';
 
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
@@ -58,15 +60,17 @@ const MeetingRoom = () => {
             case 'grid': // if type is grid
                 return <PaginatedGridLayout /> // return layout from stream
             case 'speaker-right':
-                return <SpeakerLayout participantsBarPosition='left' />
+                return <SpeakerLayout participantsBarPosition='right' />
             default:
             case 'speaker-left':
-                return <SpeakerLayout participantsBarPosition='right' />
+                return <SpeakerLayout participantsBarPosition='left' />
         }
     }
 
     return (
         <section className='relative h-screen w-full overflow-hidden pt-4 text-white'>
+             <ResizablePanelGroup direction="horizontal">
+             <ResizablePanel defaultSize={35} minSize={25} maxSize={100} className="relative">
             <div className='relative flex size-ful items-center justify-center'>
 
                 <div className='flex size-full max-w-[1000px] items-center'>
@@ -120,6 +124,13 @@ const MeetingRoom = () => {
 
 
             </div>
+            </ResizablePanel>
+            
+            <ResizableHandle withHandle />
+                <ResizablePanel defaultSize={65} minSize={25}>
+                    <NotesPage/>
+                </ResizablePanel>
+            </ResizablePanelGroup>
         </section>
     )
 }
