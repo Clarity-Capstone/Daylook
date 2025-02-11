@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { avatarImages } from "@/constants";
+import { MarcyAvatarImages } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 
 interface MeetingCardProps {
@@ -41,10 +41,10 @@ const MeetingCard = ({
           </div>
         </div>
       </article>
-      {/* map over the images for the avatar */}
+      {/* map over the images for the profiles w/marcy pics */}
       <article className={cn("flex justify-center relative", {})}>
         <div className="relative flex w-full max-sm:hidden">
-          {avatarImages.map((img, index) => (
+          {MarcyAvatarImages.map((img, index) => (
             <Image
               key={index}
               src={img}

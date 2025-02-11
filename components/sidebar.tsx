@@ -1,6 +1,6 @@
 import React, { FC } from 'react'; // FC stands for Functional Component
 import Link from 'next/link';
-import { Home, Calendar, Video, PlusCircle, LibraryBig } from 'lucide-react';
+import { Home, Calendar, Video, PlusCircle, LibraryBig, NotebookPen } from 'lucide-react';
 
 // Sidebar Component
 const Sidebar: FC = () => {
@@ -12,17 +12,20 @@ const Sidebar: FC = () => {
         <Link href="/" className="flex gap-4 items-center p-4 rounded-lg justify-start text-white hover:bg-sky-700">
           <Home className="w-6 h-6" /> Home
         </Link>
-        <Link href="/Upcoming" className="flex gap-4 items-center p-4 rounded-lg justify-start text-white hover:bg-sky-700">
+        <Link href="/Upcoming" className="flex gap-4 items-center p-4 justify-start text-white hover:rounded-full hover:bg-sky-700 ">
           <Calendar className="w-6 h-6" /> Upcoming
         </Link>
-        <Link href="/Previous" className="flex gap-4 items-center p-4 rounded-lg justify-start text-white hover:bg-sky-700">
+        <Link href="/Previous" className="flex gap-4 items-center p-4 justify-start text-white hover:rounded-full hover:bg-sky-700">
           <Video className="w-6 h-6" /> Previous
         </Link>
-        <Link href="/Recordings" className="flex gap-4 items-center p-4 rounded-lg justify-start text-white hover:bg-sky-700">
+        <Link href="/Recordings" className="flex gap-4 items-center p-4 justify-start text-white hover:rounded-full hover:bg-sky-700">
           <LibraryBig className="w-6 h-6" /> Recordings
         </Link>
-        <Link href="/Personal_Room" className="flex gap-4 items-center p-4 rounded-lg justify-start text-white hover:bg-sky-700">
+        <Link href="/Personal_Room" className="flex gap-4 items-center p-4 justify-start text-white hover:rounded-full hover:bg-sky-700">
           <PlusCircle className="w-6 h-6" /> Personal Room
+        </Link>
+        <Link href="/Notes" className="flex gap-4 items-center p-4 justify-start text-white hover:rounded-full hover:bg-sky-700">
+          <NotebookPen className="w-6 h-6" /> Notes
         </Link>
       </div>
 

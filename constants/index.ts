@@ -21,17 +21,17 @@ export const sidebarLinks = [
     label: 'Recordings',
   },
   {
-    imgURL: '/icons/add-personal.svg',
+    // imgURL: '/icons/add-personal.svg',
     route: '/personal-room',
     label: 'Personal Room',
   },
 ];
 
-export const avatarImages = [
-  '/images/avatar-1.jpeg',
-  '/images/avatar-2.jpeg',
-  '/images/avatar-3.png',
-  '/images/avatar-4.png',
-  '/images/avatar-5.png',
+export const MarcyAvatarImages = [
+  '/images/zo.png',
+  '/images/madhur.jpeg',
+  '/images/motun.jpeg',
+  '/images/ana.png',
+  '/images/emmanuel.jpeg',
 ];
 

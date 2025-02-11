@@ -88,7 +88,8 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
     <div className='grid grid-cols-1 gap-5 xl:grid-cols-2'>
       {calls && calls.length > 0 ? calls.map((meeting: Call | CallRecording) => (
         <MeetingCard
-          key={(meeting as Call).id}
+          // key={(meeting as Call).id}
+          key={'id' in meeting ? meeting.id : meeting.url} //better option since you are checking if meeting object has an id, and if it does its a call, and if not it will refrence the url as the key
           icon={
             type === 'ended'
               ? '/icons/previous.svg'
@@ -98,14 +99,23 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
           }
 
           // title={(meeting as Call).state.custom.description.substring(0, 25) || 'No description'}
-          title={meeting.state?.custom?.description?.substring(0, 26) || meeting?.filename?.substring(0, 20) || 'Personal Meeting'}
+          title={meeting.state?.custom?.description?.substring(0, 25) || meeting?.filename?.substring(0, 20) || 'Personal Meeting'}
           date={meeting.state?.startsAt.toLocaleString() || meeting.start_time.toLocaleString()}
           isPreviousMeeting={type === 'ended'}
           buttonIcon1={type === 'recordings' ? 'icons/play.svg' : undefined}
           handleClick={type === 'recordings' ? () => router.push(`${meeting.url}`) : () => router.push(`/meeting/${meeting.id}`)}
+          
+          /* Thought that if i added a target the handleClick would allow the recording to be opened inline , but that had osmething to do with Content-Disposition on server side
+          handleClick={
+            type === 'recordings'
+              ? () => window.open(meeting.url, '_blank')
+              : () => router.push(`/meeting/${meeting.id}`)
+          }
+          */
+          
           // creating a new meeting link so it works for deployed project
           link={type === 'recordings' ? meeting.url : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.id}`}
-          buttonText={type === 'recordings' ? 'Play' : 'Start'}
+          buttonText={type === 'recordings' ? 'Download' : 'Start'}
         />
       )) : (
         <h1>{noCallsMessage}</h1>
@@ -187,7 +197,9 @@ export default CallList
 //       {calls && calls.length > 0 ? (
 //         calls.map((meeting: Call | CallRecording) => (
 //           <MeetingCard
-//             key={(meeting as Call).id}
+//             key={(meeting as Call).id}//
+//key={'id' in meeting ? meeting.id : meeting.url} --> add if uncommented
+
 //             icon={
 //               type === 'ended'
 //                 ? '/icons/previous.svg'

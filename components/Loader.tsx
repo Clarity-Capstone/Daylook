@@ -7,7 +7,7 @@ import Image from 'next/image'
 const Loader = () => {
   return (
     <div className='flex-center h-screen w-full'>
-      hello world000000TESTINGGGG
+      L0ADINGG
       <Image
         src="/icons/Gray_circles_rotate.gif"
         alt="Loading"
