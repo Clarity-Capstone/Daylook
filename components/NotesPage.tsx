@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import Quill, { QuillOptions } from 'quill';
 import 'quill/dist/quill.snow.css'; // Import Quill's Snow theme CSS
+import { Download } from 'lucide-react';
 
-// Define the interface for a journal entry
+// props
 interface NoteText {
   id: number;
   content: string;
@@ -12,15 +13,16 @@ interface NoteText {
 }
 
 const NotesPage: React.FC = () => {
-  // A ref for the div that will become the Quill editor
+  // Quill editor
   const editorRef = useRef<HTMLDivElement>(null);
-  // A ref to store the Quill instance (instead of state)
+  //  store the Quill instance (instead of state)
   const quillRef = useRef<Quill | null>(null);
 
-  // State to store all saved journal entries
+  //store all saved journal entries
   const [entries, setEntries] = useState<NoteText[]>([]);
+//   const [isPanelVisible, setIsPanelVisible] = useState(false); thought about having a button for notes
 
-  // Load any saved entries from localStorage on mount
+  // Load any saved entries from localStorae
   useEffect(() => {
     const storedEntries = localStorage.getItem('noteText');
     if (storedEntries) {
@@ -45,21 +47,21 @@ const NotesPage: React.FC = () => {
         },
       };
 
-      // Create the Quill editor instance and store it in the ref
+      // Create editor instance and store it in ref
       quillRef.current = new Quill(editorRef.current, options);
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []); // mpty dependency array ensures this runs only once on mount
 
-  // Save entries to localStorage whenever they change
+  // save entries to localStorage whenever itchanges
   useEffect(() => {
     localStorage.setItem('noteText', JSON.stringify(entries));
   }, [entries]);
 
-  // Handler to save the current journal entry
+  // handler to save the current journal entry
   const handleSave = () => {
     if (quillRef.current) {
       const content = quillRef.current.root.innerHTML;
-      // Quill returns '<p><br></p>' when empty; avoid saving if so
+      // Quill returns when empty
       if (content === '<p><br></p>' || !content.trim()) {
         return;
       }
@@ -69,16 +71,15 @@ const NotesPage: React.FC = () => {
         date: new Date().toLocaleString(),
       };
 
-      // Prepend the new entry to the list
+      // prepend the new entry to the list
       setEntries((prevEntries) => [newEntry, ...prevEntries]);
-      // Clear the editor contents
+      // clears the editors
       quillRef.current.setContents([]);
     }
   };
 
-  // Handler to download the notes as an HTML file
+  // Handler to download the notes as an HTML file;l used a bit of help
   const handleDownload = () => {
-    // Create an HTML string that includes all saved entries
     const htmlContent = `
       <html>
         <head>
@@ -115,9 +116,13 @@ const NotesPage: React.FC = () => {
 
   return (
     <div className="p-4">
+        {/* <button
+        className="fixed bottom-6 right-6 bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition"
+        onClick={() => setIsPanelVisible(!isPanelVisible)}
+      ></button> */}
       <h2 className="text-xl font-bold mb-4">Notes</h2>
 
-      {/* The div below will be turned into a Quill editor */}
+      {/* TQuill editor */}
       <div ref={editorRef} className="bg-dark-1" style={{ height: '300px' }}></div>
 
       <div className="flex gap-4 mt-4">
@@ -129,14 +134,15 @@ const NotesPage: React.FC = () => {
         </button>
 
         <button
-          onClick={handleDownload}
-          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+        title='download'
+        onClick={handleDownload}
+        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
         >
-          Download Notes
+          <Download  className="ml-22" size={20} />
         </button>
       </div>
 
-      {/* Display the list of saved entries */}
+      {/* list saved entries */}
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-2">Saved Entries</h3>
         {entries.length === 0 ? (
