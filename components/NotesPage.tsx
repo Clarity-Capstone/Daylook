@@ -1,84 +1,73 @@
-'use client';
+"use client"
 
-import React, { useState, useEffect, useRef} from 'react';
-import Quill, { QuillOptions } from 'quill';
-import 'quill/dist/quill.snow.css'; // Import Quill's Snow theme CSS
-import { Download } from 'lucide-react';
+import type React from "react"
+import { useState, useEffect, useRef } from "react"
+import Quill, { type QuillOptions } from "quill"
+import "quill/dist/quill.snow.css" // Import Quill's Snow theme CSS
+import { Download } from "lucide-react"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 // props
 interface NoteText {
-  id: number;
-  content: string;
-  date: string;
+  id: number
+  content: string
+  date: string
 }
 
 const NotesPage: React.FC = () => {
-  // Quill editor
-  const editorRef = useRef<HTMLDivElement>(null);
-  //  store the Quill instance (instead of state)
-  const quillRef = useRef<Quill | null>(null);
+  const editorRef = useRef<HTMLDivElement>(null)
+  const quillRef = useRef<Quill | null>(null)
+  const [entries, setEntries] = useState<NoteText[]>([])
 
-  //store all saved journal entries
-  const [entries, setEntries] = useState<NoteText[]>([]);
-//   const [isPanelVisible, setIsPanelVisible] = useState(false); thought about having a button for notes
-
-  // Load any saved entries from localStorae
   useEffect(() => {
-    const storedEntries = localStorage.getItem('noteText');
+    const storedEntries = localStorage.getItem("noteText")
     if (storedEntries) {
-      setEntries(JSON.parse(storedEntries));
+      setEntries(JSON.parse(storedEntries))
     }
-  }, []);
+  }, [])
 
-  // Initialize Quill when the component mounts (only once)
   useEffect(() => {
     if (editorRef.current && !quillRef.current) {
       const options: QuillOptions = {
-        theme: 'snow',
-        placeholder: 'Write your entry here...',
+        theme: "snow",
+        placeholder: "Write your entry here...",
         modules: {
           toolbar: [
             [{ header: [1, 2, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            ['link', 'image'],
-            ['clean'],
+            ["bold", "italic", "underline", "strike"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["link", "image"],
+            ["clean"],
           ],
         },
-      };
+      }
 
-      // Create editor instance and store it in ref
-      quillRef.current = new Quill(editorRef.current, options);
+      quillRef.current = new Quill(editorRef.current, options)
+
+      // Set the text color to white
+      quillRef.current.root.style.color = "white"
     }
-  }, []); // mpty dependency array ensures this runs only once on mount
+  }, [])
 
-  // save entries to localStorage whenever itchanges
-  useEffect(() => {
-    localStorage.setItem('noteText', JSON.stringify(entries));
-  }, [entries]);
-
-  // handler to save the current journal entry
   const handleSave = () => {
     if (quillRef.current) {
-      const content = quillRef.current.root.innerHTML;
-      // Quill returns when empty
-      if (content === '<p><br></p>' || !content.trim()) {
-        return;
+      const content = quillRef.current.root.innerHTML
+      if (content === "<p><br></p>" || !content.trim()) {
+        return
       }
       const newEntry: NoteText = {
         id: Date.now(),
         content,
         date: new Date().toLocaleString(),
-      };
+      }
 
-      // prepend the new entry to the list
-      setEntries((prevEntries) => [newEntry, ...prevEntries]);
-      // clears the editors
-      quillRef.current.setContents([]);
+      setEntries((prevEntries) => [...prevEntries, newEntry])
+      localStorage.setItem("noteText", JSON.stringify([...entries, newEntry]))
+
+      quillRef.current.setContents([])
     }
-  };
+  }
 
-  // Handler to download the notes as an HTML file;l used a bit of help
   const handleDownload = () => {
     const htmlContent = `
       <html>
@@ -94,36 +83,29 @@ const NotesPage: React.FC = () => {
                   <h3>${entry.date}</h3>
                   <div>${entry.content}</div>
                 </section>
-              `
+              `,
             )
-            .join('')}
+            .join("")}
         </body>
       </html>
-    `;
-    // Create a Blob from the HTML content
-    const blob = new Blob([htmlContent], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
+    `
+    const blob = new Blob([htmlContent], { type: "text/html" })
+    const url = URL.createObjectURL(blob)
 
-    // Create a temporary anchor element and trigger a download
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `journal_${Date.now()}.html`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `journal_${Date.now()}.html`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
 
   return (
-    <div className="p-4">
-        {/* <button
-        className="fixed bottom-6 right-6 bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition"
-        onClick={() => setIsPanelVisible(!isPanelVisible)}
-      ></button> */}
-      <h2 className="text-xl font-bold mb-4">Notes</h2>
+    <div className="p-4 bg-gray-900 text-white min-h-screen">
+      <h2 className="text-3xl font-bold mb-6 text-white">Notes</h2>
 
-      {/* TQuill editor */}
-      <div ref={editorRef} className="bg-dark-1" style={{ height: '300px' }}></div>
+      <div ref={editorRef} className="bg-gray-800 mb-4" style={{ height: "300px" }}></div>
 
       <div className="flex gap-4 mt-4">
         <button
@@ -134,33 +116,33 @@ const NotesPage: React.FC = () => {
         </button>
 
         <button
-        title='download'
-        onClick={handleDownload}
-        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+          title="download"
+          onClick={handleDownload}
+          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
         >
-          <Download  className="ml-22" size={20} />
+          <Download className="ml-22" size={20} />
         </button>
       </div>
 
-      {/* list saved entries */}
       <div className="mt-6">
-        <h3 className="text-lg font-semibold mb-2">Saved Entries</h3>
-        {entries.length === 0 ? (
-          <p>No entries yet</p>
-        ) : (
-          entries.map((entry) => (
-            <div key={entry.id} className="mb-4 border p-2 rounded">
-              <div className="text-sm text-gray-600">{entry.date}</div>
-              <div
-                className="mt-1"
-                dangerouslySetInnerHTML={{ __html: entry.content }}
-              />
+        <h3 className="text-xl font-semibold mb-2">Saved Entries</h3>
+        <ScrollArea className="h-[400px] w-full rounded-md border border-gray-700 p-4">
+          {entries.length === 0 ? (
+            <p>No entries yet</p>
+          ) : (
+            <div className="pb-8">
+              {entries.map((entry) => (
+                <div key={entry.id} className="mb-4 border border-gray-700 p-4 rounded bg-gray-800">
+                  <div className="text-sm text-gray-400">{entry.date}</div>
+                  <div className="mt-2" dangerouslySetInnerHTML={{ __html: entry.content }} />
+                </div>
+              ))}
             </div>
-          ))
-        )}
+          )}
+        </ScrollArea>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NotesPage;
+export default NotesPage

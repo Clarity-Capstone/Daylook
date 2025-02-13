@@ -40,7 +40,7 @@ if(!call) {
                 checked={isMicCamToggledOn}
                 onChange={(e) => setIsMicCamToggledOn(e.target.checked)}
                 />
-                Join with camera & microphone OFF yee yee
+                Join with camera & microphone OFF
             </label>
         <DeviceSettings /> {/* Added just as a stretch feature ;) */}
         </div>
