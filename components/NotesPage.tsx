@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import Quill, { type QuillOptions } from "quill"
 import "quill/dist/quill.snow.css" // Import Quill's Snow theme CSS
-import { Download } from "lucide-react"
+import { Download, Trash } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 // props
@@ -101,6 +101,13 @@ const NotesPage: React.FC = () => {
     URL.revokeObjectURL(url)
   }
 
+  const handleDelete = (id: number) => {
+    const updatedEntries = entries.filter((entry) => entry.id !== id)
+    setEntries(updatedEntries)
+    localStorage.setItem("noteText", JSON.stringify(updatedEntries))
+  }
+
+
   return (
     <div className="p-4 bg-gray-900 text-white min-h-screen">
       <h2 className="text-3xl font-bold mb-6 text-white">Notes</h2>
@@ -126,20 +133,29 @@ const NotesPage: React.FC = () => {
 
       <div className="mt-6">
         <h3 className="text-xl font-semibold mb-2">Saved Entries</h3>
+        <div className="mt-6">
         <ScrollArea className="h-[400px] w-full rounded-md border border-gray-700 p-4">
           {entries.length === 0 ? (
             <p>No entries yet</p>
           ) : (
             <div className="pb-8">
               {entries.map((entry) => (
-                <div key={entry.id} className="mb-4 border border-gray-700 p-4 rounded bg-gray-800">
+                <div key={entry.id} className="mb-4 border border-gray-700 p-4 rounded bg-gray-800 relative">
                   <div className="text-sm text-gray-400">{entry.date}</div>
                   <div className="mt-2" dangerouslySetInnerHTML={{ __html: entry.content }} />
+                  <button
+                    onClick={() => handleDelete(entry.id)}
+                    className="absolute top-2 right-2 text-slate-400 hover:text-red-700 transition-colors"
+                    title="Delete entry"
+                  >
+                    <Trash size={20} />
+                  </button>
                 </div>
               ))}
             </div>
           )}
         </ScrollArea>
+      </div>
       </div>
     </div>
   )

@@ -20,8 +20,7 @@ import '@stream-io/video-react-sdk/dist/css/styles.css' // base style for Stream
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from 'next/navigation';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from './ui/resizable';
-import NotesPage from './NotesPage';
-
+import NotesPageMeeting from './NotesPageMeeting';
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
 
@@ -128,7 +127,7 @@ const MeetingRoom = () => {
             
             <ResizableHandle withHandle />
                 <ResizablePanel defaultSize={65} minSize={25}>
-                    <NotesPage/>
+                    <NotesPageMeeting/>
                 </ResizablePanel>
             </ResizablePanelGroup>
         </section>
